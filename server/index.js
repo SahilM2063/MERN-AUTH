@@ -3,6 +3,8 @@ const dotenv = require('dotenv').config();
 const cors = require('cors')
 const mongoose = require('mongoose')
 
+const app = express();
+
 // database connection
 
 mongoose.connect(process.env.MONGODB_URL,
@@ -10,8 +12,11 @@ mongoose.connect(process.env.MONGODB_URL,
     .then(() => console.log("Database connected successfully."))
     .catch((err) => console.log("Failed to connect with database...", err))
 
+// MiddleWare
 
-const app = express();
+app.use(express.json());
+
+
 
 app.use('/', require('./routes/userAuthRoutes.js'))
 

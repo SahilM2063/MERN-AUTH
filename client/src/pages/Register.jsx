@@ -2,19 +2,37 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const registerUser = (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
+    const { name, password, email } = data;
+    try {
+      const { data } = await axios.post("/register", {
+        name,
+        email,
+        password
+      })
+      if (data.err) {
+        toast.error(data.err);
+      } else {
+        setData({});
+        toast.success("Registered successfully, Welcome.");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
