@@ -2,17 +2,34 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    axios.get("/");
+    const { email, password } = data;
+    try {
+      const { data } = await axios.post("/login", {
+        email,
+        password,
+      });
+      if (data.err) {
+        toast.error(data.err);
+      } else {
+        setData({});
+        toast.success("Login successfully, Welcome.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

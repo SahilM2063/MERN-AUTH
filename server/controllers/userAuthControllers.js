@@ -46,6 +46,32 @@ const registerUser = async (req, res) => {
 }
 
 
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    // check if user is existed
+    const fetchedUser = await User.findOne({ email });
+    if (!fetchedUser) {
+        return res.json({
+            err: "No user found"
+        })
+    }
+
+    // check for if password is match
+    const match = await comparePassword(password, fetchedUser.password);
+    if (match) {
+        return res.json(
+            "Password is matched"
+        )
+    }
+    if (!match) {
+        return res.json({
+            err: "Email or password is invalid"
+        })
+    }
+}
+
+
 module.exports = {
-    test, registerUser
+    test, registerUser, loginUser
 }
