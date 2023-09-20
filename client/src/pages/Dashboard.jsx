@@ -6,9 +6,9 @@ import { UserContext } from "../../context/UserContext";
 const Dashboard = () => {
   const { user } = useContext(UserContext);
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {!!user && <h4>Hii, {user.name}!</h4>}
+    <div className="font-poppins w-full h-[calc(100vh-100px)] flex justify-center items-center flex-col gap-4">
+      <h1 className="text-5xl font-semibold ">Dashboard</h1>
+      {!!user && <h4 className="text-2xl font-medium ">Hii, {user.name}!</h4>}
     </div>
   );
 };
